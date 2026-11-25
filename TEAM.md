@@ -27,12 +27,6 @@ Bốn vai của lab:
 
 ## Phân công và bằng chứng TV4
 
-- Giữ và cập nhật [hồ sơ launch](report/team/ho_so_launch_v0.md) theo các checkpoint; chốt đề xuất có điều kiện dựa trên bằng chứng đã có.
-- Đặc tả ba chỉ số E1 và hai chỉ số bổ sung, ghi rủi ro kinh tế trong [bảng chỉ số](report/team/chi_so.md).
-- Chuẩn bị khung [bảng lỗi](report/team/bang_loi.md); TV4 tự gắn nhãn 20 ca trước khi xem nhãn TV3. Chỉ tính đồng thuận sau khi cả hai bộ nhãn độc lập đã chốt.
-- Chủ trì [phiếu chấm Gate 2a](report/team/phieu_cham.md) khi nhận được hồ sơ nhóm được chấm; không ghi điểm hoặc kết quả trước buổi duyệt chéo.
-- Bằng chứng hiện tại: các file trên và phép đếm từ hai CSV; ngày, người thực hiện và commit chốt bổ sung sau khi nhóm xác nhận.
-
 ## Cá nhân
 
 Mỗi thành viên đồng thời tạo một báo cáo riêng trong `report/` theo dạng:
