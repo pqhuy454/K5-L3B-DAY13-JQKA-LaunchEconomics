@@ -31,6 +31,10 @@ Viết "chỉ số trong đợt chạy thử là …", không viết "trợ lý 
 | `ticket_closed` | Hệ thống ticket | `request_id`, `closed_at`, `dong_trong_24h`, `trace_id` | Khi yêu cầu được đóng |
 | `ticket_reopened` | Khách hàng / CSKH | `request_id`, `reopened_at`, `mo_lai_trong_7_ngay`, `reason`, `trace_id` | Khi yêu cầu bị mở lại trong vòng 7 ngày |
 | `refund_amount_audit` | Kế toán | `request_id`, `so_tien_da_hoan`, `so_tien_dung`, `amount_mismatch`, `trace_id` | Khi kiểm tra mẫu 100 đơn/tuần |
+| `input_validation_failed` | Agent hoàn phí | `request_id`, `truong_loi` (ví dụ `ma_van_don`, `so_tai_khoan`), `gia_tri_nhap_dang_che`, `loai_ma_nhan_dien` (ví dụ `ma_san_tmdt`), `trace_id` | Khi đầu vào của khách không qua kiểm tra định dạng |
+| `refund_notice_sent` | Agent hoàn phí | `request_id`, `kenh` (`zalo`/`sms`/`app`), `noi_dung_loai` (`da_hoan`/`dang_xu_ly`/`tu_choi`), `so_tien_bao`, `cach_tinh`, `sent_at`, `trace_id` | Khi gửi thông báo kết quả hoàn phí cho khách |
+
+Hai event cuối do TV3 bổ sung để đo được bảng lỗi (`bang_loi.md`) và luật dừng (`pilot_plan.yaml`): `input_validation_failed` cho ca 9; `refund_notice_sent` đối soát với `refund_ledger_write` cho ca 7 và cho biết giờ gửi (ca 16), có kèm cách tính hay không (ca 18).
 
 **Kiểm tra chéo:** với mỗi chỉ số ở bảng E1, ghi event dùng để tính. Chỉ số nào không tính được từ danh sách event thì chưa đo được.
 
@@ -39,6 +43,22 @@ Viết "chỉ số trong đợt chạy thử là …", không viết "trợ lý 
 - **Chỉ số an toàn 1 (Tỉ lệ mở lại trong 7 ngày):** tính từ `ticket_reopened` (`mo_lai_trong_7_ngay = 1`) chia tổng số `request_assigned`.
 - **Chỉ số dùng 2 (Tỉ lệ nhóm can thiệp mở trợ lý):** tính từ `assistant_opened` chia `request_assigned` lọc `arm = intervention`.
 - **Chỉ số an toàn 2 (Tỉ lệ hoàn sai tiền qua kiểm tra mẫu):** tính từ `refund_amount_audit` lọc `amount_mismatch = true` chia tổng số đơn được audit trong tuần.
+
+**Kiểm tra chéo luật dừng và bảng lỗi (TV3):** mỗi ngưỡng trong `stop_rules` và mỗi cách phát hiện trong `bang_loi.md` phải tính được từ event ở bảng trên.
+
+| Cần đo | Ngưỡng | Event dùng để tính |
+| --- | --- | --- |
+| Luật dừng an toàn 1: mở lại 7 ngày, nhóm trợ lý so với đối chứng | Chênh ≥ 2 điểm hoặc > 6% trong 3 ngày liên tiếp (đợt chạy thử: 3,97% trong phạm vi) | `request_assigned` (`arm`), `ticket_closed`, `ticket_reopened` |
+| Luật dừng an toàn 2: hoàn trùng hoặc báo "đã hoàn" khi sổ cái lỗi | ≥ 1 ca/ngày | `refund_ledger_write` (hai bản ghi `ok` cùng `request_id`, hoặc `status` khác `ok`) đối soát với `refund_notice_sent` (`noi_dung_loai = da_hoan`) cùng `trace_id` |
+| Luật dừng chi phí: chi phí mỗi việc thành công trong phạm vi | > 6.800 đ trong 2 tuần liên tiếp (đợt chạy thử: 3.414 đ, simulated) | `agent_run_completed` (token, tool), `staff_review_decision` (`phut_xem_lai`), `staff_rework_completed` (`phut_lam_lai`), `ticket_closed` và `ticket_reopened` (đếm việc thành công) |
+| Luật dừng sử dụng: tỉ lệ bỏ qua gợi ý | > 40% trong 1 tuần (đợt chạy thử: 21,1% trong phạm vi) | `agent_suggestion_shown`, `staff_review_decision` |
+| Bảng lỗi ca 9 (do người dùng) | > 2% yêu cầu/ngày | `input_validation_failed` chia `request_assigned` |
+| Bảng lỗi ca 7 (hệ thống) | > 0 ca, đối soát mỗi giờ | `refund_notice_sent` đối soát với `refund_ledger_write` |
+| Bảng lỗi ca 18 (ngữ cảnh) | > 1% đơn đóng/tuần | `ticket_reopened` (`reason`), `refund_amount_audit`, `refund_notice_sent` (`cach_tinh`) |
+| Bảng lỗi ca 4 (giới hạn hệ thống) | > 5% ở `noi_dia`/`hang_nang` mỗi tuần | `handoff_to_staff` (`reason`, `loai`) |
+| Bảng lỗi ca 17 (ngầm) | ≥ 1% đơn lệch/tuần | `refund_amount_audit`, `agent_run_completed` (`pricing_version`) |
+
+Mọi chỉ số và ngưỡng ở trên đều tính được từ 13 event có `trace_id`; số đối chiếu của đợt chạy thử lấy từ `src/logix_requests.csv`, mọi số chi phí có phút nhân viên là simulated.
 
 ## E2 · Rủi ro kinh tế
 
