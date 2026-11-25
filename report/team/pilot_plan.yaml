@@ -42,9 +42,15 @@ pilot:
     spillover_risk: "?"
     predeclared: "?"
   stop_rules:
-    - "NẾU ? TRONG ? THÌ ? KHÔNG THÌ ?"
-    - "NẾU ? TRONG ? THÌ ? KHÔNG THÌ ?"
-    - "NẾU ? TRONG ? THÌ ? KHÔNG THÌ ?"
+    # An toàn 1 · mở lại. Đợt chạy thử: 3,97% (39/982) trong phạm vi noi_dia + hang_nang, depot cao nhất 4,7%; toàn mẫu 4,25%.
+    # Không đặt trần tuyệt đối 3% vì pilot sẽ dừng ngay tuần đầu; so với đối chứng và đặt trần 6%.
+    - "NẾU tỉ lệ mở lại trong 7 ngày của nhóm dùng trợ lý cao hơn nhóm đối chứng từ 2 điểm trở lên, hoặc vượt trần 6% (tính trên yêu cầu đã đóng đủ 7 ngày) TRONG 3 ngày liên tiếp THÌ Giám đốc vận hành tắt trợ lý trong 30 phút và Kỹ sư trưởng agent rà 20 trace mở lại trong 24 giờ KHÔNG THÌ không được bật lại trợ lý hay sang bước rollout tiếp"
+    # An toàn 2 · sai tiền đã lộ ra (ca 7 báo đã hoàn khi sổ cái lỗi, ca 20 hoàn trùng): ngưỡng 0 ca.
+    - "NẾU có từ 1 ca hoàn tiền trùng hoặc 1 ca báo khách đã hoàn mà refund_ledger_write không trả ok cùng trace_id TRONG bất kỳ ngày nào của pilot THÌ Giám đốc vận hành tắt trợ lý trong 30 phút, Kế toán trưởng thu hồi hoặc bù tiền trong 2 ngày làm việc KHÔNG THÌ không được bật lại trợ lý cho tới khi Kỹ sư trưởng agent xác nhận khoá chống trùng và đối soát sổ cái đã sửa"
+    # Chi phí. Đợt chạy thử: chi phí mỗi việc thành công trong phạm vi 3.414 đ (simulated, chưa cộng cố định); 6.800 đ là gấp đôi mức này, vẫn dưới 0,6× của 12.000 đ.
+    - "NẾU chi phí mỗi việc thành công trong phạm vi, tính bằng phút xem lại và làm lại đo thật, chưa cộng cố định, vượt 6.800 đ TRONG 2 tuần liên tiếp THÌ PM trợ lý hoàn phí thu hẹp phạm vi về noi_dia và giới hạn tối đa 2 lần chạy (B3: rẻ nhất cho cả hệ thống) trong 3 ngày làm việc KHÔNG THÌ không được giữ hang_nang trong phạm vi hay sang bước rollout tiếp"
+    # Sử dụng. Đợt chạy thử: tỉ lệ sửa + bỏ gợi ý 21,1% (27/128) trong phạm vi; 27,12% (48/177) toàn mẫu.
+    - "NẾU tỉ lệ bỏ qua gợi ý (sua + bo chia số được xem lại) của nhóm dùng trợ lý vượt 40% TRONG 1 tuần THÌ Trưởng nhóm CSKH phỏng vấn 5 nhân viên và rà 20 trace bị sửa hoặc bỏ trong 3 ngày làm việc KHÔNG THÌ không được chuyển sang bước rollout tiếp"
   interim_looks: "chỉ kiểm tra chỉ số an toàn"
   rollback: "?"                   # ai bấm, mất bao lâu, khách được phục vụ bằng gì
   decision_date: "?"
