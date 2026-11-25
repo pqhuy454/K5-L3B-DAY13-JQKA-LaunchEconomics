@@ -20,7 +20,7 @@
 - Gắn nhãn độc lập 20 ca lỗi (cột `Nhãn người 2`) trong `report/team/bang_loi.md` dựa trên đề bài gốc, đối chiếu với TV3 đạt đồng thuận `18/20 = 90%` (≥ 80%), thống nhất quy tắc cho 2 ca lệch (Ca 6, Ca 16) và hoàn thiện bảng khắc phục 5 ca theo 5 loại lỗi.
 - Tính và kiểm tra lại các chỉ số E1 trên 1.200 yêu cầu (`82,83%`, `27,12%`, `4,25%`), đề xuất 2 chỉ số pilot (`assistant_opened / request_assigned`, `refund_amount_audit`), lập khung event có `trace_id` (phối hợp TV3 hoàn thiện 13 event), kiểm tra chéo chỉ số–event và ghi 3 dòng rủi ro kinh tế E2 trong `report/team/chi_so.md`.
 - Cập nhật đủ 7 mục của `report/team/ho_so_launch_v0.md` với số liệu A–E đã kiểm chứng (`pilot_plan.yaml`, `bang_chi_phi.md`, `bang_loi.md`) và đề xuất `Go có điều kiện` kèm các con số bất lợi (power `0,64` ở mức +5 điểm; xem lại 100% lên `11.743–12.414 đ/việc` `[simulated]`) cùng điều kiện xử lý.
-- Chủ trì chấm duyệt chéo Gate 2a cho nhóm DMTG (`30/30`, `Go có điều kiện`) trong `report/team/phieu_cham.md` và cập nhật kết quả hội đồng DMTG chấm JQKA (`25/30`, `Go có điều kiện`) vào `report/team/group_report.md`.
+- Chủ trì chấm duyệt chéo Gate 2a cho nhóm DMTG (`30/30`, `Go có điều kiện`) trong `report/team/phieu_cham.md` và cập nhật kết quả hội đồng DMTG chấm JQKA (`30/30` sau khi bổ sung nhãn `simulated` cho C7, `Go có điều kiện`) vào `report/team/group_report.md`.
 
 ## 4. Bằng chứng
 
