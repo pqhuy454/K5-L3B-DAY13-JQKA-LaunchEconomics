@@ -40,7 +40,14 @@ Nhóm xây dựng bộ **hồ sơ launch v0 (Gate 2a)** cho trợ lý hoàn phí
 
 ## 6. Tổng hợp đóng góp
 
-Chi tiết đóng góp của từng thành viên nằm trong [TEAM.md](../../TEAM.md).
+Chi tiết đóng góp của từng thành viên nằm trong [TEAM.md](../../TEAM.md) và báo cáo cá nhân `report/team/MSSV_HoTen.md`.
+
+| Thành viên | Vai | Đóng góp chính | File |
+| --- | --- | --- | --- |
+| TV1 · Phạm Quốc Huy | Viết code A, B → kiểm số D, E | Ba hàm A1, `mo_hinh`, A2–A4, B1–B4; tính tay đối chiếu D1, E1; QA kỹ thuật | `src/lab13.py` |
+| TV2 · Nguyễn Thành Tâm | Kiểm số A, B → viết code D, E | Kiểm số và điền bảng chi phí A, B; code cỡ mẫu D1 và chỉ số E1; điền D1, D2, các trường số của pilot | `bang_chi_phi.md`, `src/lab13.py`, `pilot_plan.yaml` |
+| TV3 · Trịnh Gia Huy | Gắn nhãn 1 | Gắn nhãn độc lập 20 ca, quy tắc ca 6 và ca 16; bốn luật dừng; event bổ sung và bảng kiểm tra chéo | `bang_loi.md`, `pilot_plan.yaml` (`stop_rules`), `chi_so.md` |
+| TV4 · Đặng Đức Minh | Gắn nhãn 2, giữ hồ sơ | Gắn nhãn độc lập 20 ca, bảng khắc phục 5 ca; chỉ số E1, 11 event, rủi ro E2; hồ sơ launch 7 mục và đề xuất; khung báo cáo nhóm; chủ trì Gate 2a | `bang_loi.md`, `chi_so.md`, `ho_so_launch_v0.md`, `group_report.md`, `phieu_cham.md` |
 
 ## 7. Hạn chế và hướng cải thiện
 

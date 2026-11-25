@@ -52,3 +52,20 @@ Sao chép mục dưới đây cho từng thành viên.
 ### Bằng chứng
 
 -
+
+## TrinhGiaHuy-2A202603924
+
+### Phần việc phụ trách
+
+- Người gắn nhãn 1 ở Nhiệm vụ C; luật dừng ở Nhiệm vụ D; event và kiểm tra chéo ở Nhiệm vụ E.
+
+### Đóng góp cụ thể
+
+- Gắn nhãn độc lập 20 ca lỗi, đồng thuận với TV4 18/20 = 90%; viết quy tắc phân biệt cho ca 6 và ca 16 (`report/team/bang_loi.md`).
+- Viết bốn luật dừng NẾU – TRONG – THÌ – KHÔNG THÌ (an toàn mở lại, an toàn sai tiền, chi phí, sử dụng), ngưỡng đặt theo số đợt chạy thử (`report/team/pilot_plan.yaml`).
+- Bổ sung event `input_validation_failed`, `refund_notice_sent` (tổng 13 event có `trace_id`) và bảng kiểm tra chéo luật dừng, bảng lỗi với event (`report/team/chi_so.md`).
+- Bổ sung bảng tổng hợp đóng góp vào `report/team/group_report.md`.
+
+### Bằng chứng
+
+- Commit `0b85696` (C), `f474238` (D luật dừng), `cb6381b` (E event); báo cáo cá nhân `report/team/2A202603924_TrinhGiaHuy.md`.
