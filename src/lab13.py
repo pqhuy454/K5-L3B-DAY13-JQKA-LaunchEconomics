@@ -5,7 +5,10 @@ Bản gốc chưa sửa nằm ở lab13_starter.py.
 """
 import math
 import sys
+from statistics import NormalDist
 import pandas as pd
+from statsmodels.stats.power import NormalIndPower
+from statsmodels.stats.proportion import proportion_effectsize
 
 if hasattr(sys.stdout, 'reconfigure'):
     sys.stdout.reconfigure(encoding='utf-8')
@@ -80,6 +83,26 @@ def mo_hinh(runs, reqs, gia_vao=GIA_VAO, gia_ra=GIA_RA, gia_tool=GIA_TOOL, luong
         cps=float(tong / thanh_cong),
         hoa_don_moi_yc=float((tien_token.sum() + tien_tool.sum()) / len(reqs)),
     )
+
+
+# ---------- Nhiệm vụ D1 · Cỡ mẫu và thiết kế cụm ----------
+def co_mau(p1, p2, alpha=0.05, power=0.80):
+    """Cỡ mẫu mỗi nhóm khi so sánh hai tỉ lệ độc lập (kiểm định 2 phía)."""
+    za = NormalDist().inv_cdf(1.0 - alpha / 2.0)
+    zb = NormalDist().inv_cdf(power)
+    pb = (p1 + p2) / 2.0
+    tu_so = za * math.sqrt(2.0 * pb * (1.0 - pb)) + zb * math.sqrt(p1 * (1.0 - p1) + p2 * (1.0 - p2))
+    return math.ceil((tu_so ** 2) / ((p2 - p1) ** 2))
+
+
+def he_so_thiet_ke(m, icc=0.02):
+    """Design Effect (DE) = 1 + (m - 1) * ICC."""
+    return 1.0 + (m - 1.0) * icc
+
+
+def co_mau_hieu_dung_toi_da(so_cum, icc=0.02):
+    """Giới hạn trên của cỡ mẫu hiệu dụng c * m / DE khi m -> vô cùng là c / ICC."""
+    return so_cum / icc
 
 
 if __name__ == '__main__':
@@ -186,6 +209,44 @@ if __name__ == '__main__':
     print(f"CPS xem lại 100% ({phut_ll_tb} phút làm lại): {cps_b4_thuc:,.0f} đ ({cps_b4_thuc / BASELINE:.2f}x baseline, simulated)")
     print(f"Phút xem lại hoà vốn tối đa         : {hoa_von_9p:.1f} phút (với 9p) | {hoa_von_thuc:.1f} phút (với {phut_ll_tb}p)")
 
-    # TODO CP4 · Nhiệm vụ D: cỡ mẫu.
-    #   from statsmodels.stats.proportion import proportion_effectsize
-    #   from statsmodels.stats.power import NormalIndPower
+    print('\n=== D1 · CỠ MẪU THEO BA CÁCH CHIA (baseline=0.70, alpha=0.05, power=0.80, ICC=0.02) ===')
+    icc = 0.02
+    n_5pt = co_mau(0.70, 0.75, alpha=0.05, power=0.80)
+    de_m75 = he_so_thiet_ke(75, icc)
+    n_cluster_m75 = math.ceil(n_5pt * de_m75)
+    so_nv_moi_nhom_m75 = math.ceil(n_cluster_m75 / 75)
+    n_eff_max_20nv = co_mau_hieu_dung_toi_da(20, icc)
+    n_eff_max_6depot = co_mau_hieu_dung_toi_da(6, icc)
+
+    n_6pt = co_mau(0.70, 0.76, alpha=0.05, power=0.80)
+    # Giải bất phương trình: 20 * m / (1 + (m - 1) * 0.02) >= n_6pt
+    m_toi_thieu_6pt = math.ceil(n_6pt * (1.0 - icc) / (20.0 - n_6pt * icc))
+    de_6pt = he_so_thiet_ke(m_toi_thieu_6pt, icc)
+
+    # Power thực tế ở mức chênh +5 điểm (0.70 -> 0.75) khi cỡ mẫu hiệu dụng chỉ đạt n_6pt = 859
+    es_5pt = abs(proportion_effectsize(0.75, 0.70))
+    power_thuc_5pt = NormalIndPower().power(effect_size=es_5pt, nobs1=n_6pt, alpha=0.05, ratio=1.0)
+
+    print(f"  a) Chia theo yêu cầu (+5 điểm, 0.70 -> 0.75) : {n_5pt:,d} yêu cầu/nhóm")
+    print(f"  b) Theo nhân viên (m=75, DE={de_m75:.2f})            : {n_cluster_m75:,d} yêu cầu/nhóm (~{so_nv_moi_nhom_m75} NV/nhóm, tổng {so_nv_moi_nhom_m75 * 2} > 40 -> không đủ người)")
+    print(f"  c) 20 nhân viên/nhóm (giới hạn c/ICC)         : tối đa {n_eff_max_20nv:,.0f} < {n_5pt:,d} -> không đạt cho +5 điểm")
+    print(f"  d) 6 depot/nhóm (giới hạn c/ICC)              : tối đa {n_eff_max_6depot:,.0f} < {n_5pt:,d} -> không đạt")
+    print(f"  e) Mức chênh +6 điểm ({n_6pt} YC/nhóm), 20 NV/nhóm: cần m >= {m_toi_thieu_6pt} YC/nhân viên (DE = {de_6pt:.2f})")
+    print(f"  -> Đánh đổi: với n_eff = {n_6pt}, nếu tác động thật chỉ +5 điểm thì power thực tế = {power_thuc_5pt:.2f}")
+
+    tl_mo_lai_toan_bo = (reqs['mo_lai_trong_7_ngay'] == 1).mean() * 100
+    tl_mo_lai_pham_vi = (pham_vi_reqs['mo_lai_trong_7_ngay'] == 1).mean() * 100
+    print(f"  -> Tỉ lệ mo_lai_trong_7_ngay hiện tại: {tl_mo_lai_toan_bo:.2f}% ({int((reqs['mo_lai_trong_7_ngay'] == 1).sum())}/{len(reqs)} toàn mẫu) | {tl_mo_lai_pham_vi:.2f}% (trong noi_dia + hang_nang)")
+
+    print('\n=== E1 · TÍNH THỬ BA CHỈ SỐ TRÊN 1.200 YÊU CẦU ===')
+    cs_chinh_mask = (reqs['dong_trong_24h'] == 1) & (reqs['mo_lai_trong_7_ngay'] == 0)
+    cs_chinh = cs_chinh_mask.mean() * 100
+    xem_reqs = reqs[reqs['duoc_xem_lai'] == 1]
+    cs_bo_qua_mask = xem_reqs['quyet_dinh_xem_lai'].isin(['sua', 'bo'])
+    cs_bo_qua = cs_bo_qua_mask.mean() * 100
+    cs_an_toan_mask = reqs['mo_lai_trong_7_ngay'] == 1
+    cs_an_toan = cs_an_toan_mask.mean() * 100
+
+    print(f"  1. Chỉ số chính (% đóng <=24h & không mở lại 7 ngày): {cs_chinh:.2f}% ({int(cs_chinh_mask.sum())}/{len(reqs)})")
+    print(f"  2. Chỉ số dùng  (Tỉ lệ sửa + bỏ / số được xem lại)   : {cs_bo_qua:.2f}% ({int(cs_bo_qua_mask.sum())}/{len(xem_reqs)})")
+    print(f"  3. Chỉ số an toàn (Tỉ lệ mở lại trong 7 ngày)        : {cs_an_toan:.2f}% ({int(cs_an_toan_mask.sum())}/{len(reqs)})")
