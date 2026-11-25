@@ -39,5 +39,4 @@
 
 ## 6. Tự đánh giá
 
-- Đã hoàn thành phần việc của TV4: `chi_so.md`, `ho_so_launch_v0.md` (đủ 7 mục A–E), đồng thuận `18/20 = 90%` và bảng 5 ca trong `bang_loi.md`, `group_report.md`, và phiếu chấm DMTG trong `phieu_cham.md` (`30/30`, `Go có điều kiện`).
-- Còn chờ: ghi câu trả lời hỏi đáp trực tiếp của DMTG vào `phieu_cham.md` (nếu có), phần cá nhân trong `TEAM.md`, xoá các file trao đổi tạm trước khi push và bổ sung mã commit chốt cuối buổi.
+- Đã hoàn thành toàn bộ phần việc của TV4: `chi_so.md` (gồm nhãn `simulated`), `ho_so_launch_v0.md` (đủ 7 mục A–E), đồng thuận `18/20 = 90%` và bảng 5 ca trong `bang_loi.md`, `group_report.md` (cập nhật kết quả Gate 2a `30/30`), và `phieu_cham.md` (chấm DMTG `30/30`, `Go có điều kiện`, đã ghi đủ câu trả lời hỏi đáp).
