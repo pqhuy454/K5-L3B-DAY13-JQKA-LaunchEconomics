@@ -2,8 +2,8 @@
 
 Nhóm số n chấm nhóm số n + 1; nhóm cuối chấm nhóm 1. Chấm theo bằng chứng trong hồ sơ, không theo cách trình bày: một đề xuất No-go có lý do bằng số được điểm cao hơn một đề xuất Go bỏ qua con số bất lợi.
 
-- Nhóm chấm (hội đồng): ...
-- Nhóm được chấm: ...
+- Nhóm chấm (hội đồng): JQKA · L3B
+- Nhóm được chấm: chờ phân công nhóm kế tiếp tại buổi Gate 2a
 
 | Tiêu chí | 0 điểm | 5 điểm | 10 điểm | Điểm | Lý do (có số) |
 | --- | --- | --- | --- | ---: | --- |
@@ -16,6 +16,6 @@ Nhóm số n chấm nhóm số n + 1; nhóm cuối chấm nhóm 1. Chấm theo b
 
 **Lý do:** ...
 
-**Một câu hỏi cho đội trình:** ...
+**Một câu hỏi cho đội trình (dự kiến):** Nếu tuần đầu phải xem lại 100% yêu cầu, chi phí mỗi việc thành công và luật dừng chi phí của nhóm thay đổi thế nào?
 
 **Câu trả lời của đội trình (ghi lại tại buổi):** ...
