@@ -30,7 +30,7 @@
   - Phạm vi `noi_dia + hang_nang`: `900/982` thành công, biến đổi `3.414 đ`, cộng cố định 40 triệu/tháng = `4.599 đ` (`0,38×`) ở 45.000 YC/tháng (`5.784 đ` ở nửa khối lượng).
   - B4 xem lại 100%: `11.743 đ = 0,98×` (làm lại 9 phút) hoặc `12.414–12.415 đ = 1,03×` (làm lại 15,3 phút) `[simulated]`.
   - E1: `994/1.200 = 82,83%`; `48/177 = 27,12%`; `51/1.200 = 4,25%`.
-- Commit chốt nhóm: *(bổ sung sau khi nhóm push commit cuối)*.
+- Commit chốt nhóm: mốc hoàn thiện nội dung `ae1d5b5` trên nhánh `main`.
 
 ## 5. Công cụ AI đã dùng
 

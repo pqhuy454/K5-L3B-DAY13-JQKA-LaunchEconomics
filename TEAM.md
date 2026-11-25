@@ -5,7 +5,7 @@
 - Tên nhóm: JQKA
 - Lớp: L3B
 - Repo nhóm: `K5-L3B-DAY13-JQKA-LaunchEconomics` (xem [SUBMISSION.md](SUBMISSION.md))
-- URL repo, nhánh nộp, commit chốt: `https://github.com/pqhuy454/K5-L3B-DAY13-JQKA-LaunchEconomics` · nhánh `main` · commit chốt: *(cập nhật sau commit cuối)*
+- URL repo, nhánh nộp, commit chốt: `https://github.com/pqhuy454/K5-L3B-DAY13-JQKA-LaunchEconomics` · nhánh `main` · mốc hoàn thiện nội dung: `ae1d5b5` (bản nộp là commit mới nhất trên `main`)
 
 ## Thành viên
 
